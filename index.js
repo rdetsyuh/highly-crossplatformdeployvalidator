@@ -1,12 +1,13 @@
-function isValidParentheses(s) {
-  const stack = [];
-  const map = { "(": ")", "[": "]", "{": "}" };
-  for (const char of s) {
-    if (char in map) stack.push(char);
-    else {
-      const top = stack.pop();
-      if (map[top] !== char) return false;
+function canPartition(nums) {
+  const sum = nums.reduce((acc, val) => acc + val, 0);
+  if (sum % 2 !== 0) return false;
+  const target = sum / 2;
+  const dp = new Array(target + 1).fill(false);
+  dp[0] = true;
+  for (const num of nums) {
+    for (let i = target; i >= num; i--) {
+      dp[i] = dp[i] || dp[i - num];
     }
   }
-  return stack.length === 0;
+  return dp[target];
 }
